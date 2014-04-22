@@ -18,6 +18,7 @@
             "src/controllers",
             "src/models",
             "src/migrations",
+            "src/seeds",
             "src/services",
             "src/lib"
         ],

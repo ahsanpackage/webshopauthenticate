@@ -1,8 +1,19 @@
 @extends('webshopauthenticate::base')
 @section('content')
 	@include('webshopauthenticate::notifications')
+	@if(Session::has('success_message'))
+		<div class="alert alert-success alert-block">
+			<h4>{{\Lang::get('webshopauthenticate::auth/form.reset-password.password_reset_success')}}</h4>
+			<p>{{\Lang::get('webshopauthenticate::auth/form.reset-password.password_reset_success_msg')}}</p>
+		</div>
+	@endif
+	@if(Session::has('change_password_error'))
+		<div class="alert alert-danger alert-block">
+			<h4>{{\Lang::get('webshopauthenticate::auth/form.reset-password.password_reset_failure')}}</h4>
+		</div>
+	@endif
 	@if(Session::has('success_msg') && Session::get('success_msg') != '')
-        <div class="alert alert-success alert-block">
+		<div class="alert alert-success alert-block">
             <button type="button" class="close" data-dismiss="alert">&times;</button>
             <h4>{{trans('auth/form.register.signup_done')}}</h4>
             @if(Session::has('success_msg'))
@@ -16,18 +27,18 @@
 		</div>
 		<div class = "panel panel-default stocklist-panel">
 			<div class = "panel-body">
-				 {{ Form::open(array('action' => array('Ahsanpackage\Webshopauthenticate\AuthController@postLogin'), 'method' => 'post', 'class' => 'form-horizontal', 'role' => 'form', 'name' => 'login_form', 'id' => 'login_form')) }}
+				 {{ Form::open(array('action' => array('Ahsan\Webshopauthenticate\AuthController@postLogin'), 'method' => 'post', 'class' => 'form-horizontal', 'role' => 'form', 'name' => 'login_form', 'id' => 'login_form')) }}
 			        <div class="form-group {{{ $errors->has('email') ? 'error' : '' }}}">
-			        	{{ Form::label('email', 'Email Address: ',  array('class' => 'col-lg-2 control-label', 'for' => 'email')) }}
+			        	{{ Form::label('email', \Lang::get('webshopauthenticate::users.credential.email_address'),  array('class' => 'col-lg-2 control-label', 'for' => 'email')) }}
 			            <div class="col-lg-3">
 			            	{{ Form::text('email', null, array('placeholder' => 'example@example.com', 'class' => 'form-control', 'id' => 'email', 'style' => 'width: 200px;')) }}
 			             	<label class="error">{{{ $errors->first('email') }}}</label>
 		            	</div>
 			        </div>
 			        <div class="form-group {{{ $errors->has('password') ? 'error' : '' }}}">
-		    			{{ Form::label('password', 'Password: ', array('class' => 'col-lg-2 control-label', 'for' => 'password')) }}
+		    			{{ Form::label('password', \Lang::get('webshopauthenticate::users.credential.password'), array('class' => 'col-lg-2 control-label', 'for' => 'password')) }}
 		    			<div class="col-lg-3">
-		    				{{ Form::password('password', array('class' => 'form-control', 'id' => 'pwd', 'style' => 'width: 200px;')) }}
+		    				{{ Form::password('password', array('class' => 'form-control', 'id' => 'password', 'style' => 'width: 200px;')) }}
 		    				<label class="error">{{{ $errors->first('password') }}}</label>
 		            	</div>
 					</div>
@@ -41,7 +52,7 @@
 			        </div>
 			            <div>
 			                <div>
-			                    <button name="login" id="login" data-complete-text="Login" data-loading-text='Loading' class="btn btn-success">Login</button>
+			                    <button name="login" id="login" data-complete-text="Login" data-loading-text='Loading' class="btn btn-success">{{ \Lang::get('webshopauthenticate::users.credential.submit') }}</button>
 			                    <a href="{{ URL::to(\Config::get('webshopauthenticate::uri').'/signup') }}" class="btn btn-success">{{ \Lang::get('webshopauthenticate::users.signup_view') }}</a>
 			                    <a href="{{ URL::to(\Config::get('webshopauthenticate::uri').'/forgotpassword') }}" class="btn btn-success">{{ \Lang::get('webshopauthenticate::users.forgot_password') }}</a>
 			                </div>

@@ -25,7 +25,7 @@ class User extends SentryUserModel  implements UserInterface, RemindableInterfac
 	function __construct()
 	{
 		$this->hashableAttributes = array(
-		//'password',
+		'password',
 		'persist_code',
 		);
 	}
@@ -60,11 +60,4 @@ class User extends SentryUserModel  implements UserInterface, RemindableInterfac
 	{
 		return $this->email;
 	}
-
-	//added by Vasanthi
-	public function getKeyName()
-	{
-		return "user_id";
-	}
-
 }

@@ -19,6 +19,10 @@ Publish the config
 
     php artisan config:publish ahsanpackage/webshopauthenticate
 
+Publish the config
+
+    php artisan asset:publish ahsanpackage/webshopauthenticate
+
 Run the migration
 
     php artisan migrate --package="ahsanpackage/webshopauthenticate"

@@ -58,23 +58,23 @@ class UserAccountService
 		$update_user_details = array('first_name' => $input['first_name'], 'last_name' => $input['last_name'], 'email' => $input['email'] );
 		if(isset($input['password']) && $input['password'] != '')
 		{
-			$bba_token = str_random(8);
+			/*$bba_token = str_random(8);
 			$password = md5($input['password']. $bba_token);
-			$update_user_details['bba_token'] = $bba_token;
-			$update_user_details['password'] = $password;
+			$update_user_details['bba_token'] = $bba_token;*/
+			$update_user_details['password'] = $input['password'];
 		}
-		User::where('user_id', $input['user_id'])->update($update_user_details);
+		User::where('id', $input['user_id'])->update($update_user_details);
 		return true;
 	}
 
 	public function addNewUser($input, $notify_user_create = false, $admin_user_create = false)
 	{
-		$bba_token = str_random(8);
-		$password = md5($input['password']. $bba_token);
+		//$bba_token = str_random(8);
+		//$password = md5($input['password']. $bba_token);
+		$password = $input['password'];
 		$activated = 0;
 		$api_key  = str_random(16);
 		$user = \Sentry::register(array(
-				'bba_token'  => $bba_token,
 				'first_name' => $input['first_name'],
 				'last_name'  => $input['last_name'],
 				'email'      => $input['email'],
@@ -84,10 +84,10 @@ class UserAccountService
 		if(!$admin_user_create)
 		{
 			//Update the user analytics info
-			if($user->user_id)
+			if($user->id)
 			{
 				$data_arr = $input;
-				$data_arr['user_id'] = $user->user_id;
+				$data_arr['user_id'] = $user->id;
 				//$this->addUserAnalyticsInfo($data_arr);
 			}
 			$this->sendActivationCode($user);
@@ -97,7 +97,7 @@ class UserAccountService
 			$this->sendUserCreatedMail($input['first_name'], $input['email'], $input['password']);
 			$this->sendActivationCode($user, $admin_user_create);
 		}
-		return $user->user_id;
+		return $user->id;
 	}
 
 	public function updateApiKeyForUser($user_id)
@@ -252,19 +252,21 @@ class UserAccountService
 		if($email != '')
 		{
 			//generate new bba token and generate password and update the user table with email
-			$data_arr['bba_token'] 		= $this->generateRandomCode();
-			$data_arr['password'] 		= md5($input['password'].$data_arr['bba_token']);
+			/*$data_arr['bba_token'] 		= $this->generateRandomCode();
+			$data_arr['password'] 		= md5($input['password'].$data_arr['bba_token']);*/
+			$data_arr['password'] = $input['password'];
 
 			// Find the user using the user id
 			//$user = Sentry::getUser();
 
 			$user = User::where('email', $email)->first();
 
-			$logged_user_id = $user->user_id;
+			$logged_user_id = $user->id;
     		$user = \Sentry::getUserProvider()->findById($logged_user_id);
     		// Update the user details
-    		$user->bba_token = $data_arr['bba_token'];
-    		$user->password = md5($input['password'].$data_arr['bba_token']);
+    		/*$user->bba_token = $data_arr['bba_token'];
+    		$user->password = md5($input['password'].$data_arr['bba_token']);*/
+    		$user->password = $input['password'];
 
     // Update the user
     if ($user->save())
@@ -287,7 +289,7 @@ class UserAccountService
 	public function getUserinfo($user_id = 0)
 	{
 		$udetails = $user_destination = $company_info = array();
-		$udetails = User::where('user_id', $user_id)->first();
+		$udetails = User::where('id', $user_id)->first();
 		//$user_image = UserImage::where('user_id', $user_id)->first();
 		//$udetails['user_image'] = $user_image;
 		return $udetails;
@@ -297,7 +299,7 @@ class UserAccountService
 	{
 		$data_arr['first_name'] = $input['first_name'];
 		$data_arr['last_name'] = $input['last_name'];
-		User::where('user_id', $input['user_id'])->update($data_arr);
+		User::where('id', $input['user_id'])->update($data_arr);
 		//$this->userImageUpload($input['user_id']);
 	}
 
@@ -339,14 +341,16 @@ class UserAccountService
 		if(isset($input['Oldpassword']) && isset($input['password']) && $input['password'] != "" && $input['Oldpassword'] != $input['password'])
 		{
 			//generate new bba token and generate password and update the user table with email
-			$data_arr['bba_token'] 		= $this->generateRandomCode();
-			$data_arr['password'] 		= md5($input['password'].$data_arr['bba_token']);
+			/*$data_arr['bba_token'] 		= $this->generateRandomCode();
+			$data_arr['password'] 		= md5($input['password'].$data_arr['bba_token']);*/
+			$data_arr['password'] = $input['password'];
 
     		$user = \Sentry::getUserProvider()->findById($input['user_id']);
 
     		// Update the user details
-    		$user->bba_token = $data_arr['bba_token'];
-    		$user->password = md5($input['password'].$data_arr['bba_token']);
+    		/*$user->bba_token = $data_arr['bba_token'];
+    		$user->password = md5($input['password'].$data_arr['bba_token']);*/
+    		$user->password = $input['password'];
 
     		// Update the user
     		$user->save();
@@ -358,7 +362,7 @@ class UserAccountService
 
 	public function changeEmail($input)
 	{
-		$user = User::where('user_id', $input['user_id'])->first();
+		$user = User::where('id', $input['user_id'])->first();
 		if (count($user))
 		{
 			$temp_userinfo = $user;
@@ -368,7 +372,7 @@ class UserAccountService
 			$user_data['new_email'] = $input['new_email'];
 			$user_data['activation_code'] = $activation_code;
 
-			User::where('user_id', $user_id)->update($user_data);
+			User::where('id', $user_id)->update($user_data);
 
 			$data = array(
 				'user'          => $user,
@@ -404,9 +408,9 @@ class UserAccountService
 		$config_path = Config::get('generalConfig.user_image_folder');
 		$this->chkAndCreateFolder($config_path);
 		$logged_user_id = $user_id;
-		if(!$logged_user_id && isset(getAuthUser()->user_id))
+		if(!$logged_user_id && isset(getAuthUser()->id))
 		{
-			$logged_user_id = getAuthUser()->user_id;
+			$logged_user_id = getAuthUser()->id;
 		}
 
 		// open file a image resource
@@ -499,10 +503,10 @@ class UserAccountService
 		$user = User::where('activation_code', $activation_code)->where('new_email', '<>', '')->first();
 		if(count($user) > 0)
 		{
-			$user_id = $user['user_id'];
+			$user_id = $user['id'];
 			$temp_email = $user['new_email'];
 
-			$CheckUser = User::where('email', $temp_email)->where('user_id', '<>', $user_id)->count();
+			$CheckUser = User::where('email', $temp_email)->where('id', '<>', $user_id)->count();
 			if($CheckUser > 0)
 			{
 				$status = 'fail';
@@ -512,7 +516,7 @@ class UserAccountService
 				$data_arr['email'] = $temp_email;
 				$data_arr['new_email'] = '';
 				$data_arr['activation_code'] = '';
-				User::where('user_id', $user_id)->update($data_arr);
+				User::where('id', $user_id)->update($data_arr);
 				$status = 'success';
 			}
 		}

@@ -105,6 +105,9 @@ return array(
 		'password_confirm'      => 'Confirm Password',
 		'password_confirm_help' => 'Confirm your new password.',
 		'submit'                => 'Change Password',
+		'password_reset_success' => 'Success',
+		'password_reset_success_msg' => 'New password has been updated successfully',
+		'password_reset_failure'	=>	'Password reset failed'
 	),
 
 	'reset-password-confirm' => array(

@@ -67,6 +67,10 @@ class AdminUserController extends \BaseController {
 			$user_id = $this->userAccountService->addNewUser($input, false, true);
 			if($user_id)
 			{
+				$group_exists = UsersGroups::whereRaw('user_id = ?', array($user_id))->count('user_id');
+				if($group_exists == 0) {
+					UsersGroups::insert(array('user_id' => $user_id, 'group_id' => 0));
+				}
 				\Session::flash('success', \Lang::get('webshopauthenticate::admin/addMember.member_add_success'));
 				return \Redirect::to(\Config::get('webshopauthenticate::admin_uri'));
 			}
@@ -134,7 +138,7 @@ class AdminUserController extends \BaseController {
 				$user_input = \Input::all();
 				$rules = array('first_name' => $this->userAccountService->getValidatorRule('first_name'),
 							'last_name' => $this->userAccountService->getValidatorRule('last_name'),
-							'email' => 'Required|Email|unique:users,email,'.$user_id.',user_id'
+							'email' => 'Required|Email|unique:users,email,'.$user_id.',id'
 						  );
 				if(\Input::get('password') != '' || \Input::get('password_confirmation') != '')
 				{
@@ -192,7 +196,7 @@ class AdminUserController extends \BaseController {
 	{
 		if(strtolower($action) == 'activate')
 		{
-			$user = User::where("user_id", $user_id)->where('activated', 0)->first();
+			$user = User::where("id", $user_id)->where('activated', 0)->first();
 			if($user)
 			{
 				$activation_code = $user->getActivationCode();
@@ -203,9 +207,9 @@ class AdminUserController extends \BaseController {
 		}
 		else
 		{
-			$user = User::where("user_id", $user_id)->first();
+			$user = User::where("id", $user_id)->first();
 			$data_arr['activated'] = 0;
-			User::where('user_id', $user_id)->update($data_arr);
+			User::where('id', $user_id)->update($data_arr);
 			$success_msg = \Lang::get('webshopauthenticate::admin/manageMembers.memberlist_deactivated_suc_msg');
 		}
 		return $success_msg;

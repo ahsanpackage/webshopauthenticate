@@ -26,7 +26,7 @@
 
 	            <div class="form-group">
 	                <div class="col-lg-offset-2 col-lg-10">
-	                    <button type="submit" class="btn btn-success">Submit</button>
+	                    <button name="login" id="login" data-complete-text="Login" data-loading-text='Loading' class="btn btn-success">{{ \Lang::get('webshopauthenticate::users.credential.submit') }}</button>
 	                </div>
 	            </div>
 	        </fieldset>

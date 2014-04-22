@@ -12,7 +12,7 @@ class AccountController extends \BaseController {
 	{
 		$userService = new UserAccountService();
 		$udetails = $d_arr = array();
-		$logged_user_id = CUtil::getAuthUser()->user_id;
+		$logged_user_id = CUtil::getAuthUser()->id;
 		$udetails = $userService->getUserinfo($logged_user_id);
 		return \View::make('webshopauthenticate::myaccount.editProfile', compact('udetails', 'request_id', 'd_arr'));
 	}
@@ -28,7 +28,7 @@ class AccountController extends \BaseController {
 		$this->userService = new UserAccountService();
 		$success_message = "";
 		$user = CUtil::getAuthUser();
-		$logged_user_id = $user->user_id;
+		$logged_user_id = $user->id;
 		$input = \Input::all();
 		$input['user_id'] = $logged_user_id;
 		$input['email'] = $user['email'];

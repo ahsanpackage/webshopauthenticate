@@ -68,7 +68,7 @@ class CUtil
 			//	$o_arr['display_name'] = self::$u_details[$user_id]['display_name'];
 				if(!isset($in_arr['first_name']) OR !isset($in_arr['last_name']))
 				{
-					$in_arr = User::whereRaw('user_id = ? ', array($user_id))->first();
+					$in_arr = User::whereRaw('id = ? ', array($user_id))->first();
 				}
 				self::$u_details[$user_id]['display_name'] = ucfirst($in_arr['first_name']).' '.
 															ucfirst(substr($in_arr['last_name'], 0, 1));
@@ -84,7 +84,7 @@ class CUtil
 			//	$o_arr['display_name'] = self::$u_details[$user_id]['display_name'];
 				if(!isset($in_arr['first_name']) OR !isset($in_arr['user_code']))
 				{
-					$in_arr = User::whereRaw('user_id = ? ', array($user_id))->first();
+					$in_arr = User::whereRaw('id = ? ', array($user_id))->first();
 				}
 				self::$u_details[$user_id]['profile_url'] = url('/')."/".$in_arr['user_code']."-". strtolower(str_replace(" ","", $in_arr['first_name']));
 			}
@@ -97,7 +97,7 @@ class CUtil
 			if(!isset(self::$u_details[$user_id]['admin_profile_url']))
 			{
 				if(!isset($in_arr['first_name']) OR !isset($in_arr['user_code']))
-					$in_arr = User::whereRaw('user_id = ? ', array($user_id))->first();
+					$in_arr = User::whereRaw('id = ? ', array($user_id))->first();
 				self::$u_details[$user_id]['admin_profile_url'] = url("admin/profile")."/".$in_arr['user_code']."-". strtolower(str_replace(" ","", $in_arr['first_name']));
 			}
 			$o_arr['admin_profile_url'] = self::$u_details[$user_id]['admin_profile_url'];
@@ -110,7 +110,7 @@ class CUtil
 			//	$o_arr['display_name'] = self::$u_details[$user_id]['display_name'];
 				if(!isset($in_arr['email']))
 				{
-					$in_arr = User::whereRaw('user_id = ? ', array($user_id))->first();
+					$in_arr = User::whereRaw('id = ? ', array($user_id))->first();
 				}
 				self::$u_details[$user_id]['email'] = $in_arr['email'];
 			}
@@ -123,7 +123,7 @@ class CUtil
 			//	$o_arr['display_name'] = self::$u_details[$user_id]['display_name'];
 				if(!isset($in_arr['user_code']))
 				{
-					$in_arr = User::whereRaw('user_id = ? ', array($user_id))->first();
+					$in_arr = User::whereRaw('id = ? ', array($user_id))->first();
 				}
 				self::$u_details[$user_id]['user_code'] = $in_arr['user_code'];
 			}
@@ -136,7 +136,7 @@ class CUtil
 			//	$o_arr['display_name'] = self::$u_details[$user_id]['display_name'];
 				if(!isset($in_arr['activated']))
 				{
-					$in_arr = User::whereRaw('user_id = ? ', array($user_id))->first();
+					$in_arr = User::whereRaw('id = ? ', array($user_id))->first();
 				}
 				self::$u_details[$user_id]['activated'] = $in_arr['activated'];
 			}
@@ -183,7 +183,7 @@ class CUtil
 	 */
 	public static function isMember()
 	{
-		if(Sentry::getUser() AND Sentry::getUser()->user_id)
+		if(Sentry::getUser() AND Sentry::getUser()->id)
 		{
 			return true;
 		}

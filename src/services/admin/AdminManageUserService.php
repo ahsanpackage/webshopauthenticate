@@ -39,8 +39,8 @@ class AdminManageUserService
 	public function buildMemberQuery()
 	{
 		$this->qry = User::Select("users.created_at", "users.first_name", "users.last_name", "users.email",
-								"users.activated", "users.user_id", "users.user_id" );
-		$this->qry->Where('users.user_id', '<>', 0);
+								"users.activated", "users.id" );
+		$this->qry->Where('users.id', '<>', 0);
 
 		//form the search query
 		if($this->getSrchVal('user_code'))
@@ -156,7 +156,7 @@ class AdminManageUserService
 
 	public function checkIsValidMember($user_id, $user_type='Member')
 	{
-		$memberCount = User::where('user_id', $user_id)->count();
+		$memberCount = User::where('id', $user_id)->count();
 		if($memberCount)
 			return true;
 		return false;
@@ -166,7 +166,7 @@ class AdminManageUserService
 	{
 		if(strtolower($action) == 'activate')
 		{
-			$user = User::where("user_id", $user_id)->where('activated', 0)->first();
+			$user = User::where("id", $user_id)->where('activated', 0)->first();
 			if($user)
 			{
 				$activation_code = $user->getActivationCode();
@@ -177,14 +177,14 @@ class AdminManageUserService
 		}
 		else
 		{
-			$user = User::where("user_id", $user_id)->first();
+			$user = User::where("id", $user_id)->first();
 			$data_arr['activated'] = 0;
-			User::where('user_id', $user_id)->update($data_arr);
+			User::where('id', $user_id)->update($data_arr);
 			$success_msg = trans('admin/manageMembers.memberlist_deactivated_suc_msg');
 		}
 		// Add user log entry
 		$data_arr['user_id'] 	= $user_id;
-		$data_arr['added_by'] 	= getAuthUser()->user_id;
+		$data_arr['added_by'] 	= getAuthUser()->id;
 		$data_arr['date_added'] = date('Y-m-d H:i:s');
 		$data_arr['log_message'] = $success_msg." Added by: ".getAuthUser()->first_name." On.".date('Y-m-d H:i:s');
 		$userlog = new UserLog();
@@ -198,19 +198,19 @@ class AdminManageUserService
 		$user_details['err_msg'] = '';
 		$user_details['own_profile'] = 'No';
 
-		$search_cond = "users.user_id = '".addslashes($ident)."'";
+		$search_cond = "users.id = '".addslashes($ident)."'";
 		if($type == 'code')
 			$search_cond =" users.user_code = '".addslashes($ident)."'";
 
 		$udetails = User::whereRaw($search_cond)
-					->first(array('users.first_name', 'users.user_code', 'users.user_id', 'users.last_name', 'users.email', 'users.activated',
+					->first(array('users.first_name', 'users.user_code', 'users.id', 'users.last_name', 'users.email', 'users.activated',
 									'users.activated_at','users.last_login', 'users.about_me', 'users.user_status', 'users.user_access', 'users.phone'));
 
 		if(count($udetails) > 0)
 		{
 			$user_details['user_code'] 		= $udetails['user_code'];
 			$user_details['email'] 			= $udetails['email'];
-			$user_details['user_id'] 		= $user_id = $udetails['user_id'];
+			$user_details['user_id'] 		= $user_id = $udetails['id'];
 			$user_details['first_name'] 	= $udetails['first_name'];
 			$user_details['last_name'] 		= $udetails['last_name'];
 			$user_display_name 				= $udetails['first_name'].' '.substr($udetails['last_name'], 0,1);

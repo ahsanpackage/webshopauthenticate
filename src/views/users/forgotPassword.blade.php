@@ -6,10 +6,10 @@
 	</div>
 	<div class = "panel panel-default stocklist-panel">
 		<div class = "panel-body">
-			{{ Form::open(array('action' => array('Ahsanpackage\Webshopauthenticate\AuthController@forgotPassword'), 'class' => 'form-horizontal',  'id' => 'forgotpassword_frm')) }}
+			{{ Form::open(array('action' => array('Ahsan\Webshopauthenticate\AuthController@forgotPassword'), 'class' => 'form-horizontal',  'id' => 'forgotpassword_frm')) }}
 		        <fieldset>
 		            <div class="form-group {{{ $errors->has('email') ? 'error' : '' }}}">
-		                {{ Form::label('email', 'Email id: ', array('class' => 'col-lg-2 control-label required-icon')) }}
+		                {{ Form::label('email', \Lang::get('webshopauthenticate::users.forgot_credential.email_address'), array('class' => 'col-lg-2 control-label required-icon')) }}
 		                <div class="col-lg-3">
 		                    {{  Form::text('email', null, array ('class' => 'form-control')); }}
 		                    <label class="error">{{{ $errors->first('email') }}}</label>
@@ -17,8 +17,8 @@
 		            </div>
 		            <div class="form-group">
 		                <div class="col-lg-offset-2 col-lg-10">
-		                    <button type="submit" class="btn btn-success">Submit</button>
-		                    <a href="{{ URL::to(\Config::get('webshopauthenticate::uri').'/login') }}" class="btn btn-primary btn-sm" >{{ \Lang::get('webshopauthenticate::users.back_view') }}</a>
+		                	<button name="login" id="login" data-complete-text="Login" data-loading-text='Loading' class="btn btn-success">{{ \Lang::get('webshopauthenticate::users.forgot_credential.submit') }}</button>
+		                    <a href="{{ URL::to(\Config::get('webshopauthenticate::uri').'/login') }}" class="btn btn-success" >{{ \Lang::get('webshopauthenticate::users.forgot_credential.back') }}</a>
 		                </div>
 		            </div>
 		        </fieldset>

@@ -14,10 +14,9 @@ class CreateUsersTable extends Migration {
 	{
 		Schema::create('users', function($table)
 		{
-			$table->increments('user_id');
+			$table->increments('id');
 			$table->string('email');
 			$table->string('password');
-			$table->string('bba_token', 40);
 			$table->text('permissions');
 			$table->integer('activated');
 			$table->string('activation_code');

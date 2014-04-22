@@ -46,7 +46,7 @@
 			<section class="container">
 	            <div class="row">
 	            	@if (Sentry::check())
-						<a href="{{ URL::to(\Config::get('webshopauthenticate::uri').'/logout') }}" class="btn btn-info btn-sm pull-right">Logout</a>
+						<a href="{{ URL::to(\Config::get('webshopauthenticate::uri').'/logout') }}" class="btn btn-info btn-sm pull-right">{{ \Lang::get('webshopauthenticate::users.logout') }}</a>
 					@endif
 	                <div class="col-md-12" role="main">
 	                	@yield('content')

@@ -36,6 +36,7 @@ class AuthController extends \BaseController
 			        	);
 			$remember = \Input::get( 'remember');
 	        $error = $userService->doLogin($user, $remember);
+
 	        if ($error == '') {
         		$redirect = '';
 	        	if (\Sentry::getUser()->hasAnyAccess(['system'])) {
@@ -95,7 +96,13 @@ class AuthController extends \BaseController
                                  	->withInput(\Input::except('password'));
 
 	    } else {
-	    	$userService->addNewUser(\Input::all());
+	    	$user_id = $userService->addNewUser(\Input::all());
+	    	if($user_id) {
+				$group_exists = UsersGroups::whereRaw('user_id = ?', array($user_id))->count('user_id');
+				if($group_exists == 0) {
+					UsersGroups::insert(array('user_id' => $user_id, 'group_id' => 0));
+				}
+			}
 	    	if(\Config::get('webshopauthenticate::user_auto_activate')) {
 				return \Redirect::to(\Config::get('webshopauthenticate::uri').'/login')->with('success_message', 'account_created');
 			}

@@ -78,17 +78,6 @@ return array(
  */
 'list_paginate' => 5,
 
-/*
-*Get Logged userid
-*/
-'logged_user_id'=> function()
-	{
-		$user_id = 0;
-		if(Sentry::check()) {
-			$user_id = Sentry::getUser()->user_id;
-		}
-		return $user_id;
-	}
 
 );
 

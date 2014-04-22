@@ -1,8 +1,11 @@
 @extends('webshopauthenticate::base')
 @section('content')
 	@if(isset($success))
-	    <h4>{{ \Lang::get('webshopauthenticate::auth/form.register.signup_done') }}</h4>
-	    <div id="success" class="alert alert-success">
+		@if (!Sentry::check())
+			<a href="{{ URL::to(\Config::get('webshopauthenticate::uri').'/login') }}" class="btn btn-info btn-sm pull-right">{{ \Lang::get('webshopauthenticate::users.credential.submit') }}</a>
+		@endif
+		<h4>{{ \Lang::get('webshopauthenticate::auth/form.register.signup_done') }}</h4>
+	   	<div id="success" class="alert alert-success">
 	        {{ \Lang::get('webshopauthenticate::auth/form.register.signup_sent_email_1') }} <strong>{{$email}}</strong> {{ \Lang::get('webshopauthenticate::auth/form.register.signup_sent_email_2') }}
 	        {{ \Lang::get('webshopauthenticate::auth/form.register.signup_sent_email_3') }}
 	    </div>
@@ -14,43 +17,43 @@
 			<div class = "panel-body">
 			   {{ Form::open(array('method' => 'post', 'class' => 'form-horizontal', 'role' => 'form', 'name' => 'signup_form', 'id' => 'signup_form')) }}
 					<div class="form-group {{{ $errors->has('email') ? 'error' : '' }}}">
-					     {{ Form::label('email', 'Email Address: ',  array('class' => 'col-lg-2 control-label', 'for' => 'email')) }}
+					     {{ Form::label('email', \Lang::get('webshopauthenticate::users.sign_up.email_address'),  array('class' => 'col-lg-2 control-label', 'for' => 'email')) }}
 					     <div class="col-lg-3">
 					    	 {{ Form::text('email', null, array('placeholder' => 'example@example.com', 'class' => 'form-control', 'id' => 'email', 'style' => 'width: 200px;')) }}
 		 					 <label class="error">{{{ $errors->first('email') }}}</label>
 		            	</div>
 					</div>
 					<div class="form-group {{{ $errors->has('first_name') ? 'error' : '' }}}">
-					     {{ Form::label('first_name', 'First name: ', array('class' => 'col-lg-2 control-label', 'for' => 'first_name')) }}
+					     {{ Form::label('first_name', \Lang::get('webshopauthenticate::users.sign_up.first_name'), array('class' => 'col-lg-2 control-label', 'for' => 'first_name')) }}
 					     <div class="col-lg-3">
 					     	{{ Form::text('first_name',null,array('class' => 'form-control', 'id' => 'first_name', 'style' => 'width: 200px;')) }}
 		 					<label class="error">{{{ $errors->first('first_name') }}}</label>
 		            	</div>
 					</div>
 					<div class="form-group {{{ $errors->has('last_name') ? 'error' : '' }}}">
-					     {{ Form::label('last_name', 'Last name: ', array('class' => 'col-lg-2 control-label', 'for' => 'last_name')) }}
+					     {{ Form::label('last_name', \Lang::get('webshopauthenticate::users.sign_up.last_name'), array('class' => 'col-lg-2 control-label', 'for' => 'last_name')) }}
 					     <div class="col-lg-3">
 					     	{{ Form::text('last_name',null, array('class' => 'form-control', 'id' => 'last_name', 'style' => 'width: 200px;')) }}
 					     	<label class="error">{{{ $errors->first('last_name') }}}</label>
 		            	</div>
 					</div>
 					<div class="form-group {{{ $errors->has('password') ? 'error' : '' }}}">
-		    			{{ Form::label('password', 'Password: ', array('class' => 'col-lg-2 control-label', 'for' => 'password')) }}
+		    			{{ Form::label('password', \Lang::get('webshopauthenticate::users.sign_up.password'), array('class' => 'col-lg-2 control-label', 'for' => 'password')) }}
 		    			<div class="col-lg-3">
 		    				{{ Form::password('password', array('class' => 'form-control', 'id' => 'password', 'style' => 'width: 200px;')) }}
 		    				<label class="error">{{{ $errors->first('password') }}}</label>
 		            	</div>
 					</div>
 					<div class="form-group {{{ $errors->has('password_confirmation') ? 'error' : '' }}}">
-		    			{{ Form::label('password_confirmation','Confirm password: ', array('class' => 'col-lg-2 control-label', 'for' => 'password_confirmation')) }}
+		    			{{ Form::label('password_confirmation', \Lang::get('webshopauthenticate::users.sign_up.confirm_password'), array('class' => 'col-lg-2 control-label', 'for' => 'password_confirmation')) }}
 		    			<div class="col-lg-3">
 		    				{{ Form::password('password_confirmation', array('class' => 'form-control', 'id' => 'password_confirmation', 'style' => 'width: 200px;')) }}
 		    				<label class="error">{{{ $errors->first('password_confirmation') }}}</label>
 		            	</div>
 					</div>
 				    <div>
-		                {{ Form::submit('Submit', array('class' => 'btn btn-primary')) }}
-		                 <a href="{{ URL::to(\Config::get('webshopauthenticate::uri').'/login') }}" class="btn btn-primary btn-sm" >{{ \Lang::get('webshopauthenticate::users.back_view') }}</a>
+		                {{ Form::submit(\Lang::get('webshopauthenticate::users.sign_up.submit'), array('class' => 'btn btn-success')) }}
+		                 <a href="{{ URL::to(\Config::get('webshopauthenticate::uri').'/login') }}" class="btn btn-success" >{{ \Lang::get('webshopauthenticate::users.back_view') }}</a>
 		            </div>
 				{{ Form::close() }}
 			</div>
