@@ -27,6 +27,10 @@ Run the migration
 
     php artisan migrate --package="ahsanpackage/webshopauthenticate"
 
+Run the db seed
+
+    php artisan db:seed --class="Ahsanpackage\Webshopauthenticate\UsersGroupsTableSeeder"
+
 Add the following to app/routes.php
 
 	Route::get(
