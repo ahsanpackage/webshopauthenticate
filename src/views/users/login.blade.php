@@ -27,7 +27,7 @@
 		</div>
 		<div class = "panel panel-default stocklist-panel">
 			<div class = "panel-body">
-				 {{ Form::open(array('action' => array('Ahsan\Webshopauthenticate\AuthController@postLogin'), 'method' => 'post', 'class' => 'form-horizontal', 'role' => 'form', 'name' => 'login_form', 'id' => 'login_form')) }}
+				 {{ Form::open(array('action' => array('Ahsanpackage\Webshopauthenticate\AuthController@postLogin'), 'method' => 'post', 'class' => 'form-horizontal', 'role' => 'form', 'name' => 'login_form', 'id' => 'login_form')) }}
 			        <div class="form-group {{{ $errors->has('email') ? 'error' : '' }}}">
 			        	{{ Form::label('email', \Lang::get('webshopauthenticate::users.credential.email_address'),  array('class' => 'col-lg-2 control-label', 'for' => 'email')) }}
 			            <div class="col-lg-3">

@@ -1,4 +1,4 @@
-<?php namespace Ahsan\Webshopauthenticate;
+<?php namespace Ahsanpackage\Webshopauthenticate;
 class UsersGroups extends CustomEloquent
 {
     protected $table = "users_groups";

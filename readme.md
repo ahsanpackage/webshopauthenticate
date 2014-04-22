@@ -76,17 +76,17 @@ Add the following to app/routes.php
 	Route::get(\Config::get('webshopauthenticate::uri').'/activation/{activationCode}', 'Ahsanpackage\Webshopauthenticate\AuthController@getActivate');
 	Route::group(array('before' => 'sentry.member'), function()
 	{
-		Route::get(\Config::get('webshopauthenticate::uri').'/myaccount', 'Ahsan\Webshopauthenticate\AccountController@getIndex');
-		Route::post(\Config::get('webshopauthenticate::uri').'/myaccount', 'Ahsan\Webshopauthenticate\AccountController@postIndex');
+		Route::get(\Config::get('webshopauthenticate::uri').'/myaccount', 'Ahsanpackage\Webshopauthenticate\AccountController@getIndex');
+		Route::post(\Config::get('webshopauthenticate::uri').'/myaccount', 'Ahsanpackage\Webshopauthenticate\AccountController@postIndex');
 	});
 	Route::group(array('before' => 'sentry.admin'), function()
 	{
-		Route::get(Config::get('webshopauthenticate::admin_uri'), 'Ahsan\Webshopauthenticate\AdminUserController@index');
-		Route::get(Config::get('webshopauthenticate::admin_uri').'/users/add', 'Ahsan\Webshopauthenticate\AdminUserController@getAddUsers');
-		Route::post(Config::get('webshopauthenticate::admin_uri').'/users/add', 'Ahsan\Webshopauthenticate\AdminUserController@postAddUsers');
-		Route::get(Config::get('webshopauthenticate::admin_uri').'/users/edit/{user_id}', 'Ahsan\Webshopauthenticate\AdminUserController@getEditUsers');
-		Route::post(Config::get('webshopauthenticate::admin_uri').'/users/edit/{user_id}', 'Ahsan\Webshopauthenticate\AdminUserController@postEditUsers');
-		Route::any(Config::get('webshopauthenticate::admin_uri').'/users/changestatus', 'Ahsan\Webshopauthenticate\AdminUserController@getChangeUserStatus');
+		Route::get(Config::get('webshopauthenticate::admin_uri'), 'Ahsanpackage\Webshopauthenticate\AdminUserController@index');
+		Route::get(Config::get('webshopauthenticate::admin_uri').'/users/add', 'Ahsanpackage\Webshopauthenticate\AdminUserController@getAddUsers');
+		Route::post(Config::get('webshopauthenticate::admin_uri').'/users/add', 'Ahsanpackage\Webshopauthenticate\AdminUserController@postAddUsers');
+		Route::get(Config::get('webshopauthenticate::admin_uri').'/users/edit/{user_id}', 'Ahsanpackage\Webshopauthenticate\AdminUserController@getEditUsers');
+		Route::post(Config::get('webshopauthenticate::admin_uri').'/users/edit/{user_id}', 'Ahsanpackage\Webshopauthenticate\AdminUserController@postEditUsers');
+		Route::any(Config::get('webshopauthenticate::admin_uri').'/users/changestatus', 'Ahsanpackage\Webshopauthenticate\AdminUserController@getChangeUserStatus');
 	});
 	
 ##
