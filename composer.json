@@ -1,6 +1,7 @@
 {
     "name": "ahsanpackage/webshopauthenticate",
     "description": "A Laravel 4 package for basic authentication",
+    "license": "MIT",
     "authors": [
         {
             "name": "Senthil vasan",
