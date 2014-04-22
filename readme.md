@@ -19,7 +19,7 @@ Publish the config
 
     php artisan config:publish ahsanpackage/webshopauthenticate
 
-Publish the config
+Publish the asset
 
     php artisan asset:publish ahsanpackage/webshopauthenticate
 
@@ -74,6 +74,19 @@ Add the following to app/routes.php
 		'Ahsanpackage\Webshopauthenticate\AuthController@postChangePassword'
 	);
 	Route::get(\Config::get('webshopauthenticate::uri').'/activation/{activationCode}', 'Ahsanpackage\Webshopauthenticate\AuthController@getActivate');
-	Route::get(\Config::get('webshopauthenticate::uri').'/myaccount', 'Ahsanpackage\Webshopauthenticate\AccountController@getIndex');
-	Route::post(\Config::get('webshopauthenticate::uri').'/myaccount', 'Ahsanpackage\Webshopauthenticate\AccountController@postIndex');
+	Route::group(array('before' => 'sentry.member'), function()
+	{
+		Route::get(\Config::get('webshopauthenticate::uri').'/myaccount', 'Ahsan\Webshopauthenticate\AccountController@getIndex');
+		Route::post(\Config::get('webshopauthenticate::uri').'/myaccount', 'Ahsan\Webshopauthenticate\AccountController@postIndex');
+	});
+	Route::group(array('before' => 'sentry.admin'), function()
+	{
+		Route::get(Config::get('webshopauthenticate::admin_uri'), 'Ahsan\Webshopauthenticate\AdminUserController@index');
+		Route::get(Config::get('webshopauthenticate::admin_uri').'/users/add', 'Ahsan\Webshopauthenticate\AdminUserController@getAddUsers');
+		Route::post(Config::get('webshopauthenticate::admin_uri').'/users/add', 'Ahsan\Webshopauthenticate\AdminUserController@postAddUsers');
+		Route::get(Config::get('webshopauthenticate::admin_uri').'/users/edit/{user_id}', 'Ahsan\Webshopauthenticate\AdminUserController@getEditUsers');
+		Route::post(Config::get('webshopauthenticate::admin_uri').'/users/edit/{user_id}', 'Ahsan\Webshopauthenticate\AdminUserController@postEditUsers');
+		Route::any(Config::get('webshopauthenticate::admin_uri').'/users/changestatus', 'Ahsan\Webshopauthenticate\AdminUserController@getChangeUserStatus');
+	});
 	
+##

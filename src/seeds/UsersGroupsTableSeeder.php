@@ -1,4 +1,4 @@
-<?php namespace Ahsan\Webshopauthenticate;
+<?php namespace Ahsanpackage\Webshopauthenticate;
 
 use Illuminate\Database\Seeder;
 
