@@ -19,6 +19,8 @@ class WebshopauthenticateServiceProvider extends ServiceProvider {
 	public function boot()
 	{
 		$this->package('ahsanpackage/webshopauthenticate');
+		// Register the Sentry Service Provider
+        $this->app->register('Cartalyst\Sentry\SentryServiceProvider');
 		include __DIR__.'/../../filters.php';
 	}
 
@@ -37,6 +39,7 @@ class WebshopauthenticateServiceProvider extends ServiceProvider {
 		{
 		  $loader = \Illuminate\Foundation\AliasLoader::getInstance();
 		  $loader->alias('Webshopauthenticate', 'Ahsanpackage\Webshopauthenticate\Facades\Webshopauthenticate');
+		  $loader->alias('Sentry', 'Cartalyst\Sentry\Facades\Laravel\Sentry');
 		});
 	}
 

@@ -233,7 +233,7 @@ class AuthController extends \BaseController
 			}
 			else
 			{
-				return \Redirect::to(\Config::get('webshopauthenticate::uri').'/change-password/'.$token)->withInput()->with('error', $ret_msg);
+				return \Redirect::to(\Config::get('webshopauthenticate::uri').'/change-password/'.$token)->withInput()->with('change_password_error', $ret_msg);
 			}
 		}
 		else

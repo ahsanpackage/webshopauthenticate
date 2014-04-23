@@ -1,5 +1,7 @@
 <?php namespace Ahsanpackage\Webshopauthenticate;
 
+use Cartalyst\Sentry\Users\UserNotFoundException as sentrycheck;
+
 class AccountController extends \BaseController {
 
 	/**
@@ -58,7 +60,19 @@ class AccountController extends \BaseController {
 			{
 				return \Redirect::back()->withInput()->withErrors($validator);
 			}
-			$success_message = $this->userService->updateBasicDetails($input);
+			else
+			{
+				$credential = array('email' => \Sentry::getUser()->email,
+				         		'password' => \Input::get('Oldpassword')
+			        			);
+				try	{
+					$user = \Sentry::findUserByCredentials($credential);
+					$success_message = $this->userService->updateBasicDetails($input);
+				}
+				catch (sentrycheck $e) {
+			    	return \Redirect::back()->withInput()->with('valid_user', \Lang::get('webshopauthenticate::myaccount/form.current_password') );
+				}
+			}
 		}
 		else if(\Input::has('edit_personal'))
 		{

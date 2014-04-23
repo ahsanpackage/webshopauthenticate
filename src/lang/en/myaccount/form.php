@@ -35,5 +35,6 @@ return array(
 		'alternateEmail_invalid_activation' => 'Invalid activation code.',
 		'my_settings' => 'Settings',
 	),
+	'current_password' => 'Check your current password',
 
 );

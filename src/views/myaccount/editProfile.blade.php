@@ -4,6 +4,9 @@
     @if (Session::has('success_message') && Session::get('success_message') != "")
         <div class="alert alert-success">{{	Session::get('success_message') }}</div>
     @endif
+	@if(Session::has('valid_user'))
+		<div class="alert alert-danger">{{	Session::get('valid_user') }}</div>
+	@endif
 
     <div class="clearfix row">
         <div class="col-lg-6">

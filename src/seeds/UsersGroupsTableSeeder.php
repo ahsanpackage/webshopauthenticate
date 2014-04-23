@@ -11,6 +11,18 @@ class UsersGroupsTableSeeder extends Seeder {
 	 */
 	public function run()
 	{
+		$now = date('Y-m-d H:i:s');
+
+		$basicdata['email'] = 'r.senthilvasan@agriya.in';
+		$basicdata['password'] = '$2y$10$ELl8OgjHdWEBuf5xC5QBnOQfwkK.3nacWnixQl1PALZLFKcRgF2h.';
+		$basicdata['activated'] = 1;
+		$basicdata['activated_at'] = $now;
+		$basicdata['first_name'] = 'Senthil';
+		$basicdata['last_name'] = 'Vasan';
+		$basicdata['created_at'] = $now;
+		$basicdata['updated_at'] = $now;
+		\DB::table('users')->insert($basicdata);
+
 		\DB::table('groups')->truncate();
 
 		$now = date('Y-m-d H:i:s');
